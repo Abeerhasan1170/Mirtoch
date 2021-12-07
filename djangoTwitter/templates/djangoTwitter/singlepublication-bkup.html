@@ -1,0 +1,82 @@
+{% extends 'djangoTwitter/base.html' %}
+{% load static%}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row pub-container">
+        <div class="col-lg-7 col-12 mt-4">
+            <div id="content">
+
+                <h1># {{pub.title}}</h1>
+                <small>{{pub.date|date:"D d M Y" }} {{ pub.date|time:"H:i" }}</small>
+                <p mt-4>{{pub.content | safe}}</p>
+
+            </div>
+            <button id="cmd" class="btn btn-outline-primary btn-sm">Download Publication</button>
+            <div id="share"></div>
+            <br><br>
+            <h2>Comments ({{comments|length}})</h2>
+            <hr>
+            <form id="comment-form" method="post" action="" role="form">
+                {% csrf_token %}
+                <input type="hidden" value="{{pub.id}}" id="pubid">
+                <textarea name="" id="comment" rows="5" placeholder="Type a comment" wrap="off" value=""
+                    required></textarea>
+                <br>
+
+                {% if user.is_authenticated %}
+                <input type="submit" value="Add Comment" id="add-comment" class="btn btn-dark" />
+                {% else %}
+                <a href="/login" class="btn btn-dark btn-sm">Login to Comment</a>
+                {% endif %}
+            </form>
+            <br><br>
+            <div class="comment-list">
+                {% for comment in comments %}
+                <div class="comment">
+                    <span class="username">{{comment.user.username|title}}</span> <br>
+                    {{comment.content}}
+                    <br>
+                    <span class="date">{{comment.date|date}}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-1 col-12"></div>
+        <div class="col-lg-4 col-12 small-pub">
+            {% for i in all_pub %}
+            <div class="content">
+                <h5># {{i.title}}</h5>
+                <small>{{i.date|date:"D d M Y" }} {{ i.date|time:"H:i" }}</small>
+                <div class="load-more"><a href="{% url 'mirtoch:publication' i.slug %}">Read More</a></div>
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <br>
+    <hr>
+    <br>
+    <div class="col-lg-7 col-12">
+        {% for i in all_pub|slice:"1:" %}
+        <div id="content">
+            <h2># {{i.title}}</h2>
+            <small>{{i.date|date:"D d M Y" }} {{ i.date|time:"H:i" }}</small>
+            <p class="">{{i.content | safe | truncatechars:150}}</p>
+        </div>
+        <div class="load-more"><a href="{% url 'mirtoch:publication' i.slug %}">Read More</a> </div>
+        <br>
+        <div id="share"></div>
+        {% endfor %}
+    </div>
+
+    <div id="editor"></div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/comment.js'%}"></script>
+{% endblock js%}

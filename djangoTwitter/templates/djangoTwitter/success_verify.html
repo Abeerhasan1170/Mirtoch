@@ -1,0 +1,25 @@
+{% extends 'djangoTwitter/base.html'%}
+{% load static %}
+
+{% block content%}
+
+<br><br>
+<h2>User verification</h2>
+<br>
+<hr>
+<br>
+<div class="grid-containe">
+    <p class="alert alert-info col-md-6 col-12">{{message}}</p> <br>
+    {%if btn_txt == 'Contact Admin' %}
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
+              data-target="#exampleModalCenter">
+              {{btn_txt}}
+            </button>
+    {%else%}
+    <a href="{% url 'mirtoch:login' %}" class="btn btn-primary">{{btn_txt}}</a>
+    {%endif%}
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

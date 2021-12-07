@@ -1,0 +1,51 @@
+{% extends 'djangoTwitter/base.html' %}
+{% load static%}
+
+{% block css %}
+ <link rel="stylesheet" href="{% static 'timeline/css/timeline.css' %}">
+
+{% endblock %}
+{% block content %}
+<h2 class="text-center py-3">{{cat_name.title}}</h2>
+
+<button class="menu"><i class="fas fa-bars"></i></button>
+
+<div class="wrapper">
+        <div class="toc">
+          {% for i in title %}
+            <a class="text-dark" href="/timelines/{{i.slug}}/">
+              <li class="list-group-item border-top-0 border-right-0" id={{i.slug}}>
+                {{i.title}}
+              </li>
+            </a>
+          {% endfor %}
+        </div>
+
+
+      <div class="contents">
+        <div class="timeline pt-3">
+            {% for i in content %}
+            {% if forloop.counter0|divisibleby:2 %}
+              <div class="con left">
+                <div class="content">
+                  <h2>{{i.TimelineTitle}}</h2>
+                  <p>{{i.content|safe}}</p>
+                </div>
+              </div>
+              {% else %}
+                <div class="con right">
+                <div class="content">
+                  <h2>{{i.TimelineTitle}}</h2>
+                  <p>{{i.content|safe }}</p>
+                </div>
+              </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+</div>
+{% endblock %}
+{% block js %}
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+<script type="text/javascript" src="{% static 'djangoTwitter/js/single_pub.js'%}"></script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'djangoTwitter/base.html' %}
+{% load static%}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'djangoTwitter/css/pub.css' %}">
+{% endblock %}
+{% block content %}
+
+{% for msg in messages %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{msg}}</strong>
+    <button type="button" class="close p-0" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true" style="background-color:inherit; padding:0!important; border-radius:0; outline:none; border:none; color:grey!important">&times;</span>
+    </button>
+  </div>
+{% endfor %}
+
+<button class="menu"><i class="fas fa-bars"></i></button>
+
+<div class="wrapper">
+        <div class="toc">
+            <h2 class="recent">Recent Posts</h2>
+
+            <ul>
+                {% for i in recent_pub %}
+                    <li class="toc-link"><a href="/publications/{{i.slug}}/">{{i.title}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="content">
+            <h2 class="title">{{current_pub.title}}</h2>
+            <small>{{current_pub.date}}</small>
+            <p>{{current_pub.content|safe}}</p>
+            <!-- AddToAny BEGIN -->
+            <div class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-title="Check out this publication">
+            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+            <a class="a2a_button_facebook"></a>
+            <a class="a2a_button_twitter"></a>
+            <a class="a2a_button_email"></a>
+            <a class="a2a_button_whatsapp"></a>
+            </div>
+<!-- AddToAny END -->
+
+        <h3 class="mt-5">Comments ({{comments|length}})</h3>
+            <hr>
+            <form id="comment-form" method="post" action="" role="form">
+                {% csrf_token %}
+                <input type="hidden" value="{{pub.id}}" id="pubid">
+                <textarea name="" id="comment" rows="5" placeholder="Type a comment" wrap="off" value=""
+                    required></textarea>
+                <br>
+
+                {% if user.is_authenticated %}
+                <input type="submit" value="Add Comment" id="add-comment" class="btn btn-dark" />
+                {% else %}
+                <a href="/login" class="btn btn-dark btn-sm">Login to Comment</a>
+                {% endif %}
+            </form>
+            <br><br>
+            <div class="comment-list">
+                {% for comment in comments %}
+                <div class="comment">
+                    <span class="username">{{comment.user.username|title}}</span> <br>
+                    {{comment.content}}
+                    <br>
+                    <span class="date">{{comment.date|date}}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+</div>
+{% endblock %}
+{% block js %}
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+<script type="text/javascript" src="{% static 'djangoTwitter/js/single_pub.js'%}"></script>
+{% endblock %}

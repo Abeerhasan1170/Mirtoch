@@ -1,0 +1,485 @@
+{% extends 'djangoTwitter/base.html'%}
+{% load static %}
+{% block content%}
+<div class="top-bar">
+  <div>
+    <h2>
+      Top Tweets</h2>
+  </div>
+  <div class="secondary-navigation">
+    <div class="main-container">
+      <div class="filter">
+        <div class="text-left">
+          {% csrf_token %}
+          <div class="input-group mt-2">
+            <select class="custom-select" id="inputGroupSelect04" name="country">
+              <option value="" name="" selected>All Countries</option>
+              {% for country in all_countries%}
+              {%if country.selected %}
+              <option value="{{country.country_code}}" name="{{country.name}}" selected="{{country.selected}}">
+                {{country.name}}
+              </option>
+              {% else %}
+              <option value="{{country.country_code}}" name="{{country.name}}">{{country.name}}</option>
+              {%endif%}
+              {%endfor%}
+            </select>
+            <!-- <input type="submit" value="Submit"> -->
+          </div>
+          <!-- </form> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="main-section-content">
+  <!-- <div class="home-container"> -->
+  <div class="grid">
+    {% if top_tweets|length != 0 %}
+    {%for i in top_tweets %}
+    <div class="tweets {{i.screen_name}}"  country={{i.location}}>
+      <div class="custom-card">
+        <div class="custom-card-body">
+          <div class="tweet-profile">
+            <div class="thumb-image"><img class="lazy" data-src="{{i.profile_image}}" alt="" data-srcset=""></div>
+            <div class="name">
+              <a href="/user/?screenName={{i.screen_name}}">
+                <p class="display-name text-sm"><span class="name">{{i.name}}</span> <br><span
+                    class="hadnle text-muted">@{{i.screen_name}}</span></p>
+              </a>
+            </div>
+            <div class="thumb-image twitter-img"><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}"
+                target="_blank">
+                <img class="lazy twitter" data-src="{% static 'djangoTwitter/images/twitter.png' %}" alt="" data-srcset="">
+              </a>
+            </div>
+          </div>
+              <span class="badge badge-warning text-white badge-sm location">{{i.location}}</span>
+          <p class="custom-card-text">{{i.full_text | urlize}}</p>
+          {% if i.media != None %}
+          <a href="" data-toggle="modal" data-target="#picModal" data-id="{{i.media}}" class="openImgModal">
+            <div class="tweet_image">
+              <img alt="Tweet Image" data-srcset="" class="lazy" data-src="{{i.media}}">
+            </div>
+          </a>
+          {% endif %}
+
+          <div class="tweet-footer-info">
+            <div class="tweet-time">{{i.created_at}}</div>
+            <div class="info"><a href="/user/{{i.screen_name}}"><i class="fas fa-info-circle"></i></a></div>
+          </div>
+
+          <div class="tweet-footer-final">
+            <div class="link">
+              <a href="https://twitter.com/intent/favorite?tweet_id={{i.id}}" target="_blank">
+                <i class="far fa-heart"></i>
+                &nbsp;
+                {{i.favourite_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/retweet?tweet_id={{i.id}}" target="_blank">
+                <i class="fa fa-retweet"></i>
+                &nbsp;
+                {{i.retweet_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/tweet?in_reply_to={{i.id}}" target="_blank">
+                <i class="fa fa-reply"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="sizer"></div>
+    {% endif %}
+  </div>
+  {% if all_tweets.P|length != 0 %}
+  <br><br>
+
+  <h2>Business Tweets</h2>
+  <br>
+  <div class="grid">
+    {%for i in all_tweets.P %}
+    {{I}}
+    <div class="tweets {{i.screen_name}}"  country={{i.location}}>
+      <div class="custom-card">
+        <div class="custom-card-body">
+          <div class="tweet-profile">
+            <div class="thumb-image"><img class="lazy" data-src="{{i.profile_image}}" alt="" data-srcset=""></div>
+            <div class="name">
+              <p class="display-name text-sm">
+                <a href="/user/?screenName={{i.screen_name}}">
+                  <span class="name">{{i.name}}</span>
+                </a>
+                <br><span class="hadnle text-muted">@{{i.screen_name}}</span>
+              </p>
+
+            </div>
+            <div class="thumb-image twitter-img"><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}"
+                target="_blank">
+                <img class="lazy twitter" data-src="{% static 'djangoTwitter/images/twitter.png' %}" alt="" data-srcset="">
+              </a>
+            </div>
+          </div>
+<span class="badge badge-warning text-white badge-sm location">{{i.location}}</span>
+          <p class="custom-card-text text-muted">{{i.full_text | urlize}}</p>
+
+          {% if i.media != None %}
+          <a href="" data-toggle="modal" data-target="#picModal" data-id="{{i.media}}" class="openImgModal">
+            <div class="tweet_image">
+              <img alt="Tweet Image" data-srcset="" class="lazy" data-src="{{i.media}}">
+            </div>
+          </a>
+          {% endif %}
+          <div class="tweet-footer-info">
+            <div class="tweet-time">{{i.created_at}}</div>
+            <div class="info"><i class="fas fa-info-circle"></i></div>
+          </div>
+
+          <div class="tweet-footer-final">
+            <div class="link">
+              <a href="https://twitter.com/intent/favorite?tweet_id={{i.id}}" target="_blank">
+                <i class="far fa-heart"></i>
+                &nbsp;
+                {{i.favourite_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/retweet?tweet_id={{i.id}}" target="_blank">
+                <i class="fa fa-retweet"></i>
+                &nbsp;
+                {{i.retweet_count}}
+              </a>
+            </div>
+            <div class="link">
+              <a href="https://twitter.com/intent/tweet?in_reply_to={{i.id}}" target="_blank">
+                <i class="fa fa-reply"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sizer"></div>
+    {% endfor %}
+  </div>
+  <div class="load-more"><a href="/category/business">Load More</a> </div>
+  {% endif %}
+
+
+  {% if all_tweets.G|length != 0 %}
+  <br><br>
+  <h2>Government Tweets</h2>
+  <br>
+  <div class="grid">
+    {%for i in all_tweets.G %}
+    <div class="tweets {{i.screen_name}}">
+      <div class="custom-card">
+        <div class="custom-card-body">
+          <div class="tweet-profile">
+            <div class="thumb-image"><img class="lazy" data-src="{{i.profile_image}}" alt="" data-srcset=""></div>
+            <div class="name">
+              <p class="display-name text-sm">
+                <a href="/user/?screenName={{i.screen_name}}">
+                  <span class="name">{{i.name}}</span>
+                </a>
+                <br><span class="hadnle text-muted">@{{i.screen_name}}</span>
+              </p>
+
+            </div>
+            <div class="thumb-image twitter-img"><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}"
+                target="_blank">
+                <img class="lazy twitter" data-src="{% static 'djangoTwitter/images/twitter.png' %}" alt="" data-srcset="">
+              </a>
+            </div>
+          </div>
+<span class="badge badge-warning text-white badge-sm location">{{i.location}}</span>
+          <p class="custom-card-text text-muted">{{i.full_text | urlize}}</p>
+
+          {% if i.media != None %}
+          <a href="" data-toggle="modal" data-target="#picModal" data-id="{{i.media}}" class="openImgModal">
+            <div class="tweet_image">
+              <img alt="Tweet Image" data-srcset="" class="lazy" data-src="{{i.media}}">
+            </div>
+          </a>
+          {% endif %}
+          <div class="tweet-footer-info">
+            <div class="tweet-time">{{i.created_at}}</div>
+            <div class="info"><i class="fas fa-info-circle"></i></div>
+          </div>
+
+          <div class="tweet-footer-final">
+            <div class="link">
+              <a href="https://twitter.com/intent/favorite?tweet_id={{i.id}}" target="_blank">
+                <i class="far fa-heart"></i>
+                &nbsp;
+                {{i.favourite_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/retweet?tweet_id={{i.id}}" target="_blank">
+                <i class="fa fa-retweet"></i>
+                &nbsp;
+                {{i.retweet_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/tweet?in_reply_to={{i.id}}" target="_blank">
+                <i class="fa fa-reply"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sizer"></div>
+    {% endfor %}
+  </div>
+  <div class="load-more"><a href="/category/government">Load More</a> </div>
+  {% endif %}
+
+  {% if all_tweets.O|length != 0 %}
+  <br><br>
+  <h2>Political Parties Tweets</h2>
+  <br>
+  <div class="grid">
+    {%for i in all_tweets.O %}
+
+
+    <div class="tweets {{i.screen_name}}" country={{i.location}}>
+      <div class="custom-card">
+        <div class="custom-card-body">
+          <div class="tweet-profile">
+            <div class="thumb-image"><img class="lazy" data-src="{{i.profile_image}}" alt="" data-srcset=""></div>
+            <div class="name">
+              <p class="display-name text-sm">
+                <a href="/user/?screenName={{i.screen_name}}">
+                  <span class="name">{{i.name}}</span>
+                </a>
+                <br><span class="hadnle text-muted">@{{i.screen_name}}</span>
+              </p>
+
+            </div>
+            <div class="thumb-image twitter-img"><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}"
+                target="_blank">
+                <img class="lazy twitter" data-src="{% static 'djangoTwitter/images/twitter.png' %}" alt="" data-srcset="">
+              </a>
+            </div>
+          </div>
+<span class="badge badge-warning text-white badge-sm location">{{i.location}}</span>
+          <p class="custom-card-text text-muted">{{i.full_text | urlize}}</p>
+
+          {% if i.media != None %}
+          <a href="" data-toggle="modal" data-target="#picModal" data-id="{{i.media}}" class="openImgModal">
+            <div class="tweet_image">
+              <img alt="Tweet Image" data-srcset="" class="lazy" data-src="{{i.media}}">
+            </div>
+          </a>
+          {% endif %}
+          <div class="tweet-footer-info">
+            <div class="tweet-time">{{i.created_at}}</div>
+            <div class="info"><i class="fas fa-info-circle"></i></div>
+          </div>
+
+          <div class="tweet-footer-final">
+            <div class="link">
+              <a href="https://twitter.com/intent/favorite?tweet_id={{i.id}}" target="_blank">
+                <i class="far fa-heart"></i>
+                &nbsp;
+                {{i.favourite_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/retweet?tweet_id={{i.id}}" target="_blank">
+                <i class="fa fa-retweet"></i>
+                &nbsp;
+                {{i.retweet_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/tweet?in_reply_to={{i.id}}" target="_blank">
+                <i class="fa fa-reply"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sizer"></div>
+    {% endfor %}
+  </div>
+  <div class="load-more"><a href="/category/political">Load More</a> </div>
+  {% endif %}
+  {% if all_tweets.A|length != 0 %}
+  <br><br>
+  <h2>Active Tweets</h2>
+  <br>
+  <div class="grid">
+    {%for i in all_tweets.A %}
+
+    <div class="tweets {{i.screen_name}}"  country={{i.location}}>
+      <div class="custom-card">
+        <div class="custom-card-body">
+          <div class="tweet-profile">
+            <div class="thumb-image"><img class="lazy" data-src="{{i.profile_image}}" alt="" data-srcset=""></div>
+            <div class="name">
+              <p class="display-name text-sm">
+                <a href="/user/?screenName={{i.screen_name}}">
+                  <span class="name">{{i.name}}</span>
+                </a>
+                <br><span class="hadnle text-muted">@{{i.screen_name}}</span>
+              </p>
+
+            </div>
+            <div class="thumb-image twitter-img"><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}"
+                target="_blank">
+                <img class="lazy twitter" data-src="{% static 'djangoTwitter/images/twitter.png' %}" alt="" data-srcset="">
+              </a>
+            </div>
+          </div>
+<span class="badge badge-warning text-white badge-sm location">{{i.location}}</span>
+          <p class="custom-card-text text-muted">{{i.full_text | urlize}}</p>
+
+          {% if i.media != None %}
+          <a href="" data-toggle="modal" data-target="#picModal" data-id="{{i.media}}" class="openImgModal">
+            <div class="tweet_image">
+              <img alt="Tweet Image" data-srcset="" class="lazy" data-src="{{i.media}}">
+            </div>
+          </a>
+          {% endif %}
+          <div class="tweet-footer-info">
+            <div class="tweet-time">{{i.created_at}}</div>
+            <div class="info"><i class="fas fa-info-circle"></i></div>
+          </div>
+
+          <div class="tweet-footer-final">
+            <div class="link">
+              <a href="https://twitter.com/intent/favorite?tweet_id={{i.id}}" target="_blank">
+                <i class="far fa-heart"></i>
+                &nbsp;
+                {{i.favourite_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/retweet?tweet_id={{i.id}}" target="_blank">
+                <i class="fa fa-retweet"></i>
+                &nbsp;
+                {{i.retweet_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/tweet?in_reply_to={{i.id}}" target="_blank">
+                <i class="fa fa-reply"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sizer"></div>
+    {% endfor %}
+  </div>
+  <div class="load-more"><a href="/category/active">Load More</a> </div>
+  {% endif %}
+
+
+
+  {% if all_tweets.M|length != 0 %}
+  <br><br>
+  <h2>Media Tweets</h2>
+  <br>
+  <div class="grid">
+    {%for i in all_tweets.M %}
+
+    <div class="tweets {{i.screen_name}}"  country={{i.location}}>
+      <div class="custom-card">
+        <div class="custom-card-body">
+          <div class="tweet-profile">
+            <div class="thumb-image"><img class="lazy" data-src="{{i.profile_image}}" alt="" data-srcset=""></div>
+            <div class="name">
+              <p class="display-name text-sm">
+                <a href="/user/?screenName={{i.screen_name}}">
+                  <span class="name">{{i.name}}</span>
+                </a>
+                <br><span class="hadnle text-muted">@{{i.screen_name}}</span>
+              </p>
+
+            </div>
+            <div class="thumb-image twitter-img"><a href="https://twitter.com/{{i.screen_name}}/status/{{i.id}}"
+                target="_blank">
+                <img class="lazy twitter" data-src="{% static 'djangoTwitter/images/twitter.png' %}" alt="" data-srcset="">
+              </a>
+            </div>
+          </div>
+<span class="badge badge-warning text-white badge-sm location">{{i.location}}</span>
+          <p class="custom-card-text text-muted">{{i.full_text | urlize}}</p>
+
+          {% if i.media != None %}
+          <a href="" data-toggle="modal" data-target="#picModal" data-id="{{i.media}}" class="openImgModal">
+            <div class="tweet_image">
+              <img alt="Tweet Image" data-srcset="" class="lazy" data-src="{{i.media}}">
+            </div>
+          </a>
+          {% endif %}
+          <div class="tweet-footer-info">
+            <div class="tweet-time">{{i.created_at}}</div>
+            <div class="info"><i class="fas fa-info-circle"></i></div>
+          </div>
+
+          <div class="tweet-footer-final">
+            <div class="link">
+              <a href="https://twitter.com/intent/favorite?tweet_id={{i.id}}" target="_blank">
+                <i class="far fa-heart"></i>
+                &nbsp;
+                {{i.favourite_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/retweet?tweet_id={{i.id}}" target="_blank">
+                <i class="fa fa-retweet"></i>
+                &nbsp;
+                {{i.retweet_count}}
+              </a>
+            </div>
+
+            <div class="link">
+              <a href="https://twitter.com/intent/tweet?in_reply_to={{i.id}}" target="_blank">
+                <i class="fa fa-reply"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sizer"></div>
+    {% endfor %}
+  </div>
+  <div class="load-more btn btn-sm"><a href="/category/media">Load More</a> </div>
+  <br>
+  {% endif %}
+  <br>
+</div>
+{% endblock %}
+{% block js %}
+<script data-src="{% static 'js/home.js'%}"></script>
+{% endblock js %}

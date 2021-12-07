@@ -1,0 +1,103 @@
+{% extends 'djangoTwitter/base.html'%}
+{% load static%}
+{% block content %}
+{% load tz %}
+
+
+<div class="container-fluid">
+  <div class="jumbotron">
+    {% if user.is_authenticated %}
+      <h1 class="display-4">Hello, {{user.username}}!</h1>
+      {% else %}
+      <h1 class="display-3">Welcome,</h1>
+      <p class="lead"> Please login to see the analytics whose you are following</p>
+      <a href="accounts/twitter/login"><img src="{% static 'images/sign-in-with-twitter.png'%}" alt=""></a>
+      {%endif%}
+  </div>
+      {% if user.is_authenticated %}
+      <!-- <div class="test"> -->
+      
+      <h4>Following <span class="badge badge-pill badge-primary">{{total_following}}</span></h4>
+      <div class="recentPost">
+      <ul class="list-group friends recentPostChild">
+        {% for i in data %}
+        <li class="list-group-item friends-name">
+          <img src="{{i.profile_image}}" alt="" srcset="">
+          <p>{{i.name}}</p>
+          <i class="fas fa-chevron-down" data-toggle="{{i.screen_name}}" data-target="#demo"></i>
+        </li>
+        <div id="collapse" class="{{i.screen_name}}">
+          <div class="user-info">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores inventore necessitatibus ad vero distinctio officiis nam, excepturi quasi? Vitae minus consectetur error vel soluta itaque aliquam possimus rerum, facere at.
+            <!-- <table>
+              <tr>
+                <td>Name</td>
+                <td>sifat</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+            </table> -->
+          </div>
+        </div>
+
+
+        {% endfor %}
+
+      </ul>
+      <div class="recentPostChild tweetGrid">
+      <div class="grid">
+        {% for i in data%}
+          <div class="tweets">
+            <div class="tweet-profile">
+              <div class="thumb-image"><img src="{{i.profile_image}}" alt="" srcset="" loading="lazy"></div>
+              <div class="name"><p class="display-name">{{i.name}} <span class="hadnle">@{{i.screen_name}}</span></p></div>
+            </div>
+            {% if i.media != None %}
+            <div class="tweet_image mt-3">
+              <img src="{{i.media}}" alt="" srcset="" loading="lazy">
+            </div>
+            {% endif %}
+            <p class="tweet-text">{{i.full_text}}</p>
+          
+            <div class="tweet-footer">
+              <div class="reteet"><i class="fa fa-retweet"></i> <span class="count">605</span></div>
+              <div class="star"><i class="fa fa-star"></i> <span class="count">3667</span></div>
+              <div class="followers"><i class="fa fa-users"></i> <span class="count">13100</span></div>
+              <div class="friends"><i class="fas fa-user-friends"></i> <span class="count">50266</span></div>
+              <div class="share"><i class="fa fa-share-alt"></i> <span class="count">13110</span></div>
+              <div class="signal"><i class="fas fa-signal"></i> <span class="count">0.00</span></div>
+              <div class="reteet-engagement"><i class="fa fa-retweet"></i> <span class="count">605</span></div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+    </div>
+    </div>
+
+    </div>
+
+
+      {%endif%}
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'djangoTwitter/base.html' %}
+{% load static%}
+
+{% block css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&display=swap');
+    .wrapper{
+       display: flex;
+       max-width: 1050px;
+       margin: auto;
+    }
+    .toc{
+        flex:26%;
+        height: 100%;
+        overflow: auto;
+        max-width: 290px;
+        /*position: fixed;*/
+    }
+    .content{
+        flex: 74%;
+        max-width: 700px;
+        margin-left: 50px;
+    }
+    .toc-link{
+        margin: 0.8em 0;
+    }
+    .toc-link a{
+        font-family: 'Open Sans', sans-serif;
+        font-size: 0.95em;
+        line-height: 1.2em;
+        font-style: italic;
+    }
+.toc-link:first-child{
+    color: #1EAEDB;
+}
+/*    .toc-link a:hover{
+        color: #1EAEDB;
+        text-decoration: none;
+    }*/
+    .toc-link a.active{
+        color: #1EAEDB;
+    }
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+
+<div class="wrapper">
+
+        <div class="toc">
+            <h3 class="recent">Recent Posts</h3>
+            <ul>
+                 <!-- <li class="toc-link"><a href="{{pub.last.slug}}">{{i.title}}</a></li> -->
+                {% for i in recent_pub %}
+                    <li class="toc-link"><a href="{{i.slug}}" id="{{i.slug}}">{{i.title}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="content">
+            {{pub.first.content|safe}}
+        </div>
+</div>
+{%block js%}
+<script>
+    // $('.toc-link a').hover(function(e){
+    //     // console.log('hover')
+    //     $(this).toggleClass('active')
+    // })
+
+
+let route = window.location.pathname
+s = route.split('/')
+console.log(s)
+dom = document.getElementById(route)
+dom.classList.add('active')
+</script>
+{%endblock%}
+{% endblock %}

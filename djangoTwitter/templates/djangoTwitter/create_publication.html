@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <style>
+         @import url('https://fonts.googleapis.com/css?family=PT+Sans');
+        .main{
+            margin: 2%;
+            border: solid 1px silver;
+            box-shadow: 1px 1px 1px black;
+            width: 90%;
+            margin: auto;
+            font-size: 16px;
+            font-family: 'PT Sans', sans-serif;
+            border-radius: 5px;
+        }
+        .username{
+            color: #fff;
+            background: teal;
+            margin: 0;
+            padding: 2%;
+        }
+        .mail-body{
+            padding: 1%;
+        }
+        .link{
+            padding: 1%;
+            border: solid 1px teal;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h2 class="username">Hi {{username}}</h2>
+        <div class="mail-body">
+            <h2>{{title|safe}}</h2>
+            <p>{{content|safe}} <br><br>
+            Regards. Mirtoch</p>
+        </div>
+    </div>
+</body>
+</html>

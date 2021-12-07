@@ -1,0 +1,18 @@
+{% extends 'djangoTwitter/base.html'%}
+{% load static %}
+
+{% block content%}
+
+<br><br>
+<h2>Internal Server Error</h2>
+<br>
+<hr>
+<br>
+<div class="grid-containe">
+    <p class="alert alert-info col-md-6 col-12">An internal server error occurred</p> <br>
+    <a href="{% url 'mirtoch:home' %}" class="btn btn-primary">Visit Homepage</a>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

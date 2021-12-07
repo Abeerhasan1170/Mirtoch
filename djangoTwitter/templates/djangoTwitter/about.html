@@ -1,0 +1,12 @@
+{% extends 'djangoTwitter/base.html' %}
+
+{% block content %}
+    <div class="main-container">
+        <legend class="border-bottom mb-4">About Us</legend>
+        
+            {% for i in about %}
+               <p mt-4> {{i.content|safe}}</p>
+            {% endfor %}
+        
+    </div>
+{% endblock %}

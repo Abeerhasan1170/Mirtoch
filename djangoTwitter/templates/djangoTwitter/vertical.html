@@ -1,0 +1,62 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<style>
+    table,
+    td,
+    th {
+        border: 3px solid rgb(231, 222, 222);
+        font-size: large;
+        color: #fff;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-left: 3px;
+    }
+</style>
+
+<div class="wrapper">
+
+    <nav id="sidebar">
+        <h2 style="text-align: center;">Title </h2>
+        {% for i in title %}
+
+        <table>
+            <tr>
+                <td><a href="{{i.get_absolute_url}}">{{ i.title }}</a></td>
+                <!-- <td>{{i.title}}</td>
+                <td>{{i.ttime}}</td> -->
+            </tr>
+        </table>
+        {% endfor %}
+
+    </nav>
+
+    <div style=" margin-left: 20%;">
+        <h2 style="text-align: center; margin-top: 10px; font-size: 30px;"><a href="{{i.get_absolute_url}}">{{i.Title}}"</a></h2>
+        <section id="status-timeline" class="status-container">
+
+            {% for i in content %}
+            <div class="status-timeline-block">
+                <div class="status-timeline-img status-picture">
+
+                </div>
+
+                <div class="status-timeline-content">
+                    <h2 style="line-height: 2;">{{ i.created|date:"F d, Y" }}</h2>
+                    <h2>{{ i.TimelineTitle}}</h2>
+                    <!-- <h2>{{ i.ttime}}</h2> -->
+                    <p>
+                        {{i.content|safe}}
+                    </p>
+
+                </div>
+            </div>
+            {% endfor %}
+
+
+        </section>
+    </div>
+</div>

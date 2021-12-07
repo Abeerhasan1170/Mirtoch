@@ -1,0 +1,7 @@
+djangoTwitter/migrations
+timeline/migrations
+djangoTwitter/__pycache__
+timeline/__pycache__
+myapp/__pycache__
+.env
+env
